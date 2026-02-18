@@ -1,0 +1,39 @@
+{
+  "name": "repair",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@date-io/dayjs": "^3.2.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@hookform/resolvers": "^5.2.2",
+    "@mui/icons-material": "^7.3.8",
+    "@mui/material": "^7.3.8",
+    "@mui/material-nextjs": "^7.3.8",
+    "@mui/x-charts": "^8.27.0",
+    "@mui/x-data-grid": "^8.27.1",
+    "@mui/x-date-pickers": "^9.0.0-alpha.0",
+    "axios": "^1.13.5",
+    "bcryptjs": "^3.0.3",
+    "classnames": "^2.5.1",
+    "dayjs": "^1.11.19",
+    "framer-motion": "^12.34.2",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.2.1",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-hook-form": "^7.71.1",
+    "yup": "^1.7.1"
+  },
+  "devDependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6"
+  }
+}
