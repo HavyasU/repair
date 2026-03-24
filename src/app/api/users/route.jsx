@@ -19,7 +19,10 @@ export async function GET(req) {
         }
 
         await dbConnect();
-        const users = await User.find({}).sort({ createdAt: -1 }).select("-password");
+        const { searchParams } = new URL(req.url);
+        const role = searchParams.get("role");
+        const query = role ? { role } : {};
+        const users = await User.find(query).sort({ createdAt: -1 }).select("-password");
         return NextResponse.json(users);
     } catch (e) {
         return NextResponse.json({ message: "Server Error" }, { status: 500 });

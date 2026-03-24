@@ -21,10 +21,11 @@ const BookingSchema = new mongoose.Schema(
         },
         repairStatus: {
             type: String,
-            enum: ["Pending", "Assigned", "In Progress", "Completed", "Cancelled"],
+            enum: ["Pending", "Assigned", "In Progress", "Completed", "Cancelled", "Out for Pickup", "Picked Up", "Ready for Delivery", "Out for Delivery", "Delivered"],
             default: "Pending",
         },
         technicianId: { type: mongoose.Schema.Types.ObjectId, ref: "Technician" },
+        deliveryBoyId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     },
     { timestamps: true }
 );

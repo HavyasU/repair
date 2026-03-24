@@ -19,19 +19,29 @@ async function getSession() {
 export async function PATCH(req, { params }) {
     const session = await getSession();
     if (!session) return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-    if (session.role !== "admin") return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    if (session.role !== "admin" && session.role !== "delivery_boy") {
+        return NextResponse.json({ message: "Forbidden" }, { status: 403 });
+    }
 
     await dbConnect();
 
     try {
         const { id } = await params;
         const body = await req.json();
-        const { repairStatus, paymentStatus, technicianId } = body;
+        const { repairStatus, paymentStatus, technicianId, deliveryBoyId } = body;
+
+        const bookingToUpdate = await Booking.findById(id);
+        if (!bookingToUpdate) return NextResponse.json({ message: "Booking not found" }, { status: 404 });
+
+        if (session.role === "delivery_boy" && bookingToUpdate.deliveryBoyId?.toString() !== session.userId) {
+            return NextResponse.json({ message: "Forbidden: Not assigned to this task" }, { status: 403 });
+        }
 
         const update = {};
         if (repairStatus) update.repairStatus = repairStatus;
-        if (paymentStatus) update.paymentStatus = paymentStatus;
-        if (technicianId) update.technicianId = technicianId;
+        if (paymentStatus && (session.role === "admin" || session.role === "delivery_boy")) update.paymentStatus = paymentStatus;
+        if (technicianId && session.role === "admin") update.technicianId = technicianId;
+        if (deliveryBoyId && session.role === "admin") update.deliveryBoyId = deliveryBoyId;
 
         const booking = await Booking.findByIdAndUpdate(id, update, { new: true });
         if (!booking) return NextResponse.json({ message: "Booking not found" }, { status: 404 });

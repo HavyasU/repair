@@ -23,10 +23,18 @@ export async function GET(req) {
     await dbConnect();
 
     try {
-        const query = session.role === "admin" ? {} : { userId: session.userId };
+        let query = {};
+        if (session.role === "admin") {
+            query = {};
+        } else if (session.role === "delivery_boy") {
+            query = { deliveryBoyId: session.userId };
+        } else {
+            query = { userId: session.userId };
+        }
         const bookings = await Booking.find(query)
             .sort({ createdAt: -1 })
-            .populate("userId", "name email phone");
+            .populate("userId", "name email phone")
+            .populate("deliveryBoyId", "name phone");
 
         return NextResponse.json(bookings);
     } catch (e) {

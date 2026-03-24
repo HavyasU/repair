@@ -29,7 +29,8 @@ export function AuthProvider({ children }) {
         try {
             const { data } = await axios.post('/api/auth/login', { email, password });
             setUser(data.user);
-            const dest = data.user.role === 'admin' ? '/dashboard/admin' : '/dashboard/user';
+            const dest = data.user.role === 'admin' ? '/dashboard/admin' : 
+                         data.user.role === 'delivery_boy' ? '/dashboard/delivery' : '/dashboard/user';
             router.push(dest);
             return { success: true };
         } catch (error) {

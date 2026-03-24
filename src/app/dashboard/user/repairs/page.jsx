@@ -17,6 +17,11 @@ const statusConfig = {
     'In Progress': { label: 'In Progress', color: '#3b82f6', bg: '#eff6ff', icon: <AccessTimeIcon sx={{ fontSize: 14 }} /> },
     'Completed': { label: 'Completed', color: '#10b981', bg: '#ecfdf5', icon: <CheckCircleIcon sx={{ fontSize: 14 }} /> },
     'Cancelled': { label: 'Cancelled', color: '#ef4444', bg: '#fef2f2', icon: <CancelIcon sx={{ fontSize: 14 }} /> },
+    'Out for Pickup': { label: 'Pickup in Progress', color: '#f59e0b', bg: '#fffbeb', icon: <AccessTimeIcon sx={{ fontSize: 14 }} /> },
+    'Picked Up': { label: 'Device Picked Up', color: '#8b5cf6', bg: '#f5f3ff', icon: <CheckCircleIcon sx={{ fontSize: 14 }} /> },
+    'Ready for Delivery': { label: 'Ready for Delivery', color: '#10b981', bg: '#ecfdf5', icon: <CheckCircleIcon sx={{ fontSize: 14 }} /> },
+    'Out for Delivery': { label: 'Out for Delivery', color: '#3b82f6', bg: '#eff6ff', icon: <AccessTimeIcon sx={{ fontSize: 14 }} /> },
+    'Delivered': { label: 'Delivered', color: '#10b981', bg: '#ecfdf5', icon: <CheckCircleIcon sx={{ fontSize: 14 }} /> },
 };
 
 const paymentConfig = {
@@ -162,6 +167,18 @@ export default function MyRepairs() {
                                             ₹{repair.priceEstimate || 0}
                                         </Typography>
                                     </Stack>
+
+                                    {repair.deliveryBoyId && (
+                                        <>
+                                            <Divider sx={{ my: 2 }} />
+                                            <Box>
+                                                <Typography variant="caption" color="text.disabled">Delivery Partner</Typography>
+                                                <Typography variant="body2" fontWeight="700" color="primary">
+                                                    {repair.deliveryBoyId.name || 'Assigned'} {repair.deliveryBoyId.phone ? `· ${repair.deliveryBoyId.phone}` : ''}
+                                                </Typography>
+                                            </Box>
+                                        </>
+                                    )}
 
                                     {repair.images && repair.images.length > 0 && (
                                         <>

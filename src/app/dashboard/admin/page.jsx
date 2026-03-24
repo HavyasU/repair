@@ -14,6 +14,7 @@ const CARD_DEFS = [
     { title: 'Active Repairs', key: 'activeBookings', icon: <BuildIcon sx={{ fontSize: 26, color: 'white' }} />, gradient: 'linear-gradient(135deg,#3b82f6,#2563eb)', shadow: 'rgba(59,130,246,0.35)', sub: 'Pending + In Progress' },
     { title: 'Total Users', key: 'totalUsers', icon: <PeopleIcon sx={{ fontSize: 26, color: 'white' }} />, gradient: 'linear-gradient(135deg,#f59e0b,#d97706)', shadow: 'rgba(245,158,11,0.35)', sub: 'Registered customers' },
     { title: 'Completed', key: 'completedBookings', icon: <CheckCircleIcon sx={{ fontSize: 26, color: 'white' }} />, gradient: 'linear-gradient(135deg,#ec4899,#db2777)', shadow: 'rgba(236,72,153,0.35)', sub: 'Successfully repaired' },
+    { title: 'Delivery Tasks', key: 'deliveryTasks', icon: <MonetizationOnIcon sx={{ fontSize: 26, color: 'white' }} />, gradient: 'linear-gradient(135deg,#6366f1,#4338ca)', shadow: 'rgba(99,102,241,0.35)', sub: 'Pickups / Deliveries' },
 ];
 
 function StatCard({ def, value, loading }) {

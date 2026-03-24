@@ -14,6 +14,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import PeopleIcon from '@mui/icons-material/People';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
 import { usePathname } from 'next/navigation';
@@ -42,6 +44,12 @@ export default function Sidebar({ role }) {
             { text: 'Users', icon: <PeopleIcon />, href: '/dashboard/admin/users' },
             { text: 'Services', icon: <MiscellaneousServicesIcon />, href: '/dashboard/admin/services' },
             { text: 'Reports', icon: <AssessmentIcon />, href: '/dashboard/admin/reports' },
+        ],
+        delivery_boy: [
+            { text: 'Dashboard', icon: <DashboardIcon />, href: '/dashboard/delivery' },
+            { text: 'My Tasks', icon: <LocalShippingIcon />, href: '/dashboard/delivery/tasks' },
+            { text: 'Completed', icon: <ListAltIcon />, href: '/dashboard/delivery/completed' },
+            { text: 'Profile', icon: <PersonIcon />, href: '/dashboard/delivery/profile' },
         ],
     };
 

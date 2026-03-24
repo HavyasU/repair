@@ -16,6 +16,7 @@ import axios from 'axios';
 const roleColors = {
     admin: { bg: '#fce7f3', color: '#db2777' },
     technician: { bg: '#fff7ed', color: '#ea580c' },
+    delivery_boy: { bg: '#f5f3ff', color: '#8b5cf6' },
     user: { bg: '#ecfdf5', color: '#059669' },
 };
 
@@ -188,6 +189,8 @@ export default function UsersPage() {
                             <Select value={editForm.role} onChange={(e) => setEditForm({ ...editForm, role: e.target.value })} sx={{ borderRadius: 2 }}>
                                 <MenuItem value="user">User</MenuItem>
                                 <MenuItem value="admin">Admin</MenuItem>
+                                <MenuItem value="delivery_boy">Delivery Boy</MenuItem>
+                                <MenuItem value="technician">Technician</MenuItem>
                             </Select>
                         </FormControl>
                         <FormControlLabel

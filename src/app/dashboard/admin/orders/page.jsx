@@ -10,7 +10,7 @@ import BuildIcon from '@mui/icons-material/Build';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from 'axios';
 
-const repairStatuses = ['Pending', 'Assigned', 'In Progress', 'Completed', 'Cancelled'];
+const repairStatuses = ['Pending', 'Assigned', 'In Progress', 'Completed', 'Cancelled', 'Out for Pickup', 'Picked Up', 'Ready for Delivery', 'Out for Delivery', 'Delivered'];
 const paymentStatuses = ['Pending', 'Paid', 'Refunded'];
 
 const repairColors = {
@@ -19,6 +19,11 @@ const repairColors = {
     'In Progress': { color: '#3b82f6', bg: '#eff6ff' },
     'Completed': { color: '#10b981', bg: '#ecfdf5' },
     'Cancelled': { color: '#ef4444', bg: '#fef2f2' },
+    'Out for Pickup': { color: '#f59e0b', bg: '#fffbeb' },
+    'Picked Up': { color: '#8b5cf6', bg: '#f5f3ff' },
+    'Ready for Delivery': { color: '#10b981', bg: '#ecfdf5' },
+    'Out for Delivery': { color: '#3b82f6', bg: '#eff6ff' },
+    'Delivered': { color: '#10b981', bg: '#ecfdf5' },
 };
 
 const paymentColors = {
@@ -33,6 +38,8 @@ export default function AdminOrdersPage() {
     const [editOrder, setEditOrder] = useState(null);
     const [editRepairStatus, setEditRepairStatus] = useState('');
     const [editPaymentStatus, setEditPaymentStatus] = useState('');
+    const [editDeliveryBoyId, setEditDeliveryBoyId] = useState('');
+    const [deliveryBoys, setDeliveryBoys] = useState([]);
     const [saving, setSaving] = useState(false);
     const [successMsg, setSuccessMsg] = useState('');
 
@@ -44,12 +51,22 @@ export default function AdminOrdersPage() {
             .finally(() => setLoading(false));
     };
 
-    useEffect(() => { fetchOrders(); }, []);
+    const fetchDeliveryBoys = () => {
+        axios.get('/api/users?role=delivery_boy')
+            .then((res) => setDeliveryBoys(res.data))
+            .catch(console.error);
+    };
+
+    useEffect(() => { 
+        fetchOrders();
+        fetchDeliveryBoys();
+    }, []);
 
     const openEdit = (order) => {
         setEditOrder(order);
         setEditRepairStatus(order.repairStatus);
         setEditPaymentStatus(order.paymentStatus);
+        setEditDeliveryBoyId(order.deliveryBoyId?._id || order.deliveryBoyId || '');
         setSuccessMsg('');
     };
 
@@ -59,6 +76,7 @@ export default function AdminOrdersPage() {
             await axios.patch(`/api/bookings/${editOrder._id}`, {
                 repairStatus: editRepairStatus,
                 paymentStatus: editPaymentStatus,
+                deliveryBoyId: editDeliveryBoyId || null,
             });
             setSuccessMsg('Order updated successfully!');
             fetchOrders();
@@ -237,6 +255,20 @@ export default function AdminOrdersPage() {
                                 <Typography variant="subtitle2" fontWeight="700" sx={{ mb: 1 }}>Payment Status</Typography>
                                 <Select value={editPaymentStatus} onChange={(e) => setEditPaymentStatus(e.target.value)} sx={{ borderRadius: 2 }}>
                                     {paymentStatuses.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
+                                </Select>
+                            </FormControl>
+                            <FormControl fullWidth>
+                                <Typography variant="subtitle2" fontWeight="700" sx={{ mb: 1 }}>Assign Delivery Boy</Typography>
+                                <Select 
+                                    value={editDeliveryBoyId} 
+                                    onChange={(e) => setEditDeliveryBoyId(e.target.value)} 
+                                    sx={{ borderRadius: 2 }}
+                                    displayEmpty
+                                >
+                                    <MenuItem value=""><em>None</em></MenuItem>
+                                    {deliveryBoys.map((db) => (
+                                        <MenuItem key={db._id} value={db._id}>{db.name} ({db.email})</MenuItem>
+                                    ))}
                                 </Select>
                             </FormControl>
                         </Stack>
